@@ -27,30 +27,30 @@ RM = rm -f
 DEBUG = -g
 OPT = -O3
 ERR = -Wall
-INC_PATH = -I.
+INC_PATH = -I. -I./SGP4/cpp
 LIB_PATH = 
 LIBS =
 CC_FLAGS = $(INC_PATH) $(DEBUG) $(OPT) $(ERR) -fpic
-LD_FLAGS = $(LIB_PATH) $(LIBS) -shared -soname=$(LIBNAME) 
+LD_FLAGS = $(LIB_PATH) $(LIBS) -shared
 
 #===================================================================================================================
 
 .PHONY: all clean check
 
-all: lib$(LIBCLOCK_NAME).so
+all: lib$(LIBCLOCK_NAME).so lib$(LIBSATPOSN_NAME).so
 
 %.so: %.a
 	$(LD) $(LD_FLAGS) -soname=$@ --whole-archive $< --no-whole-archive -o $@
 
 lib%.a: %.o
-	$(AR) lib$(LIBCLOCK_NAME).a $<
-	$(RANLIB) lib$(LIBCLOCK_NAME).a
+	$(AR) lib$*.a $<
+	$(RANLIB) lib$*.a
 
 %.o: %.c
 	$(CC) $(CC_FLAGS) -o $@ -c $<
 
 clean:
-	$(RM) *.o
+	$(RM) *.o *.a *.so
 
-check: lib$(LIBCLOCK_NAME).so
+check: lib$(LIBCLOCK_NAME).so lib$(LIBSATPOSN_NAME).so
 	cd $(TESTS_DIR) && make && make check

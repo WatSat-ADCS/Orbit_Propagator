@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include "clock.h"
 
-const char clock_filename[] = "../dat/jdate.txt";
+const char clock_filename[] = "../../dat/jdate.txt";
 
 /*===== TESTS =====*/
 
@@ -80,7 +80,6 @@ Suite * create_suite() {
 
   return s;
 }
-
 
 
 int main() {

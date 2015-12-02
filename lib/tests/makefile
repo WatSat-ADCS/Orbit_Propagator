@@ -14,12 +14,6 @@
 LIBCLOCK_NAME = clock
 LIBSATPOSN_NAME = satPosition
 
-TESTS_DIR = ./tests
-
-TEST_CLOCK = test_$(LIBCLOCK_NAME)
-TEST_CLOCK_SRC = test_clock.c
-TEST_CLOCK_FLAGS = $(CC_FLAGS) $(LD_FLAGS)
-
 #===================================================================================================================
 
 CC = gcc
@@ -28,7 +22,7 @@ RM = rm -f
 DEBUG = -g
 OPT = -O3 -fprofile-arcs -ftest-coverage
 ERR = -Wall
-INC_PATH = -I. -I..
+INC_PATH = -I. -I.. -I../SGP4/cpp
 LIB_PATH = -L..
 LD_PATH = ..
 CHECK_LIBS = -Wl,--whole-archive -lcheck -Wl,--no-whole-archive
@@ -43,7 +37,12 @@ TEST_CLOCK_SRC = test_clock.c
 TEST_CLOCK_FLAGS = $(CC_FLAGS) $(LD_FLAGS)
 TEST_CLOCK_LIBS = $(LIBS) -l$(LIBCLOCK_NAME)
 
-TESTS = $(TEST_CLOCK)
+TEST_SATPOSN = test_$(LIBSATPOSN_NAME)
+TEST_SATPOSN_SRC = test_satPosition.c
+TEST_SATPOSN_FLAGS = $(CC_FLAGS) $(LD_FLAGS)
+TEST_SATPOSN_LIBS = $(LIBS) -l$(LIBCLOCK_NAME) -l$(LIBSATPOSN_NAME)
+
+TESTS = $(TEST_CLOCK) $(TEST_SATPOSN)
 
 #===================================================================================================================
 
@@ -54,8 +53,11 @@ all: $(TESTS)
 $(TEST_CLOCK): $(TEST_CLOCK_SRC)
 	$(CC) $(TEST_CLOCK_FLAGS) -o $@ $^ $(TEST_CLOCK_LIBS)
 
+$(TEST_SATPOSN): $(TEST_SATPOSN_SRC)
+	$(CC) $(TEST_SATPOSN_FLAGS) -o $@ $^ $(TEST_SATPOSN_LIBS)
+
 clean:
-	$(RM) $(TESTS) *.gcno *.gcda
+	$(RM) $(TESTS) *.gcno *.gcda *.o
 
 check:
 	for t in $(TESTS); do	\
