@@ -11,20 +11,22 @@
   authors: Jason Pye (j2pye@uwaterloo.ca)
 
   Change log:
-  2015-12-02 (JP) - Initial release
+  2015-12-03 (JP) - Initial release
 */
 
-void readTLE(const char* tlefile, char* tle1, char* tle2);
-// Reads two-line elements from tlefile and puts them in tle1 and tle2.
 
-void writeTLE(const char* tlefile, const char* tle1, const char* tle2);
-// Writes the two-line element (tle1,tle2) to the tlefile.
+void readRV(const char* rvfile, double* rvtime, double posn[3], double vel[3]);
+// Reads Time, Position, Velocity from rvfile and puts them in rvtime, posn, vel.
 
-void resetTLE(const char* tlefile, const char* init_tlefile);
-// Resets TLE in tlefile to that in init_tlefile.
+void writeRV(const char* rvfile, double rvtime, double posn[3], double vel[3]);
+// Writes the Time, Position, Velocity in rvtime, posn, vel to rvfile.
 
-void currentOrbitState(const char* tlefile, double* position, double* velocity);
-// Propagates and updates the state estimate from tlefile to the current time
-// and places the new position and velocity in the corresponding variables.
+void resetRV(const char* rvfile, const char* init_tlefile);
+// Resets the Time, Position, Velocity in rvfile with data
+// corresponding to the TLE data in init_tlefile.
+
+void currentOrbitState(const char* rvfile, const char* clockfile, double* rvtime, double posn[3], double vel[3]);
+// Propagates and updates the state estimate from rvfile to the current time
+// and places the new time, position, velocity in the corresponding variables.
 
 #endif

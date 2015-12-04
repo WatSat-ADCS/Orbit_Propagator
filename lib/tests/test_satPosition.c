@@ -7,7 +7,7 @@
   authors: Jason Pye (j2pye@uwaterloo.ca)
 
   Change log:
-  2015-12-02 (JP) - Initial release
+  2015-12-03 (JP) - Initial release
 */
 
 #include <check.h>
@@ -18,29 +18,84 @@
 const char clock_filename[] = "../../dat/jdate.txt";
 const char initTLE_filename[] = "../../dat/tle_init.txt";
 const char estRV_filename[] = "../../dat/rv_est.txt";
-const char estCOE_filename[] = "../../dat/coe_est.txt";
 
 /*===== TESTS =====*/
 
-START_TEST (test_readTLE) {
+START_TEST (test_readRV) {
 
-  char tleline1[130], tleline2[130];
-  readTLE(initTLE_filename
-  
+  double rvtime, posn[3], vel[3];
+  readRV(estRV_filename, &rvtime, posn, vel);
+
+
+  char str_rvtime[100], str_posn[3][100], str_vel[3][100];
+
+  sprintf( str_rvtime, "%.5lf", rvtime );
+  int i;
+  for (i = 0; i < 3; i++) {
+    sprintf( str_posn[i], "%.5lf", posn[i] );
+    sprintf( str_vel[i], "%.5lf", vel[i] );
+  }
+
+  ck_assert_str_ne( str_rvtime, "" );
+  for (i = 0; i < 3; i++) {
+    ck_assert_str_ne( str_posn[i], "" );
+    ck_assert_str_ne( str_vel[i], "" );
+  }
+
 } END_TEST
 
 
-START_TEST (test_writeTLE) {
+START_TEST (test_writeRV) {
+
+  double rvtime_w = (double) rand();
+  double rvtime_r;
+  double posn_w[3] = { (double) rand(), (double) rand(), (double) rand() };
+  double posn_r[3];
+  double vel_w[3] = { (double) rand(), (double) rand(), (double) rand() };
+  double vel_r[3];
+
+  writeRV(estRV_filename, rvtime_w, posn_w, vel_w);
+  readRV(estRV_filename, &rvtime_r, posn_r, vel_r);
+
+  ck_assert( rvtime_r == rvtime_w );
+  int i;
+  for (i = 0; i < 3; i++) {
+    ck_assert( posn_r[i] == posn_w[i] );
+    ck_assert( vel_r[i] == vel_w[i] );
+  } 
 
 } END_TEST
 
 
-START_TEST (test_resetTLE) {
+START_TEST (test_resetRV) {
+
+  resetRV(estRV_filename, initTLE_filename);
 
 } END_TEST
 
 
 START_TEST (test_currentOrbitState) {
+
+  double rvtime, posn[3], vel[3];
+
+
+  currentOrbitState( estRV_filename, clock_filename, &rvtime, posn, vel );
+
+
+  char str_rvtime[100], str_posn[3][100], str_vel[3][100];
+
+  sprintf( str_rvtime, "%.5lf", rvtime );
+  int i;
+  for (i = 0; i < 3; i++) {
+    sprintf( str_posn[i], "%.5lf", posn[i] );
+    sprintf( str_vel[i], "%.5lf", vel[i] );
+  }
+
+  ck_assert_str_ne( str_rvtime, "" );
+  for (i = 0; i < 3; i++) {
+    ck_assert_str_ne( str_posn[i], "" );
+    ck_assert_str_ne( str_vel[i], "" );
+  }
 
 } END_TEST
 
@@ -56,9 +111,9 @@ Suite * create_suite() {
   Suite *s = suite_create(SUITE_NAME);
 
   TCase *tc_core = tcase_create("Core");
-  tcase_add_test(tc_core, test_readTLE);
-  tcase_add_test(tc_core, test_writeTLE);
-  tcase_add_test(tc_core, test_resetTLE);
+  tcase_add_test(tc_core, test_readRV);
+  tcase_add_test(tc_core, test_writeRV);
+  tcase_add_test(tc_core, test_resetRV);
   tcase_add_test(tc_core, test_currentOrbitState);
   suite_add_tcase(s, tc_core);
 

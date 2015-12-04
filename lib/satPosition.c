@@ -7,25 +7,122 @@
   authors: Jason Pye (j2pye@uwaterloo.ca)
 
   Change log:
-  2015-12-02 (JP) - Initial release
+  2015-12-03 (JP) - Initial release
 */
 
 #include <stdio.h>
+
 #include "clock.h"
 
-
-// Reads two-line elements from tlefile and puts them in tle1 and tle2.
-void readTLE(const char* tlefile, char* tle1, char* tle2) {}
-
-
-// Writes the two-line element (tle1,tle2) to the tlefile.
-void writeTLE(const char* tlefile, const char* tle1, const char* tle2) {}
+#include "sgp4unit.h"
+#include "sgp4io.h"
+#include "sgp4ext.h"
 
 
-// Resets TLE in tlefile to that in init_tlefile.
-void resetTLE(const char* tlefile, const char* init_tlefile);
+// Reads Time, Position, Velocity from rvfile and puts them in rvtime, posn, vel.
+void readRV(const char* rvfile, double* rvtime, double posn[3], double vel[3]) {
+
+  FILE *fptr;
+  fptr = fopen( rvfile, "r" );
+  if (fptr == NULL) {
+    printf("Error opening file: %s\n", rvfile);
+    return;
+  }
+
+  fscanf(fptr, "%lf", rvtime);
+  int i;
+  for (i = 0; i < 3; i++)
+    fscanf(fptr, "%lf", &posn[i]);
+  for (i = 0; i < 3; i++)
+    fscanf(fptr, "%lf", &vel[i]);
+
+  fclose(fptr);
+  return;
+
+}
+
+
+// Writes the Position, Velocity in posn, vel to rvfile.
+void writeRV(const char* rvfile, double rvtime, double posn[3], double vel[3]) {
+
+  FILE *fptr;
+  fptr = fopen( rvfile, "w" );
+  if (fptr == NULL) {
+    printf("Error opening file: %s\n", rvfile);
+    return;
+  }
+
+  fprintf(fptr, "%.5lf ", rvtime);
+  int i;
+  for (i = 0; i < 3; i++)
+    fprintf(fptr, "%.5lf ", posn[i]);
+  for (i = 0; i < 3; i++)
+    fprintf(fptr, "%.5lf ", vel[i]);
+
+  fclose(fptr);
+  return;
+
+}
+
+
+// Resets the Position, Velocity in rvfile with Position, Velocity
+// corresponding to TLE in tlefile.
+void resetRV(const char* rvfile, const char* init_tlefile) {
+
+  // Read data from TLE file
+  FILE *tle_fptr;
+  tle_fptr = fopen( init_tlefile, "r" );
+  if (tle_fptr == NULL) {
+    printf("Error opening file: %s\n", init_tlefile);
+    return;
+  }
+
+  char tle_line1[130], tle_line2[130];
+  fgets(tle_line1, 130, tle_fptr);
+  fgets(tle_line2, 130, tle_fptr);
+
+  fclose(tle_fptr);
+
+
+  // Convert TLE data to Time, Position, Velocity data
+  const gravconsttype GRAV_CONSTS = wgs72; // Apparently the twoline2rv function needs this.
+  elsetrec satrecord; // This too: and object containing the satellite information.
+  double startmfe, stopmfe, deltamin;
+
+  twoline2rv(tle_line1, tle_line2, 'v', 'm', 'i', GRAV_CONSTS, startmfe, stopmfe, deltamin, satrecord);
+  // Magic inputs... really sketchy and something to come back to.
+
+
+  // Write Time, Position, Velocity data to rvfile
+  double rvtime, posn[3], vel[3];
+
+  sgp4(GRAV_CONSTS, satrecord, 0.0, posn, vel); // Apparently this is the only way to extract the posn/vel data :S
+  rvtime = satrecord.jdsatepoch;
+
+  writeRV(rvfile, rvtime, posn, vel);
+
+}
 
 
 // Propagates and updates the state estimate from tlefile to the current time
 // and places the new position and velocity in the corresponding variables.
-void currentOrbitState(const char* tlefile, double* position, double* velocity) {}
+void currentOrbitState(const char* rvfile, const char* clockfile, double* rvtime, double posn[3], double vel[3]) {
+
+  const gravconsttype GRAV_CONSTS = wgs72;
+  // Check whether these are the right ones to hard-code.
+
+  elsetrec satrecord;
+  // This is an object which contains the satellite info.
+
+  // Initial state retrieved from rvfile
+  double init_time, init_posn[3], init_vel[3];
+  readRV(rvfile, &init_time, init_posn, init_vel);
+  sgp4(GRAV_CONSTS, satrecord, 1440.0*init_time, init_posn, init_vel);
+
+  // New state
+  *rvtime = readClock(clockfile);
+  sgp4(GRAV_CONSTS, satrecord, 1440.0*(*rvtime - init_time), init_posn, init_vel); // Is this the correct time format????
+
+  writeRV(rvfile, *rvtime, posn, vel);
+
+}
