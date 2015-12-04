@@ -34,7 +34,7 @@ OPT = -O3
 ERR = -Wall
 INC_PATH = -I. -I./SGP4/cpp
 LIB_PATH = 
-LIBS =
+LIBS = -lm
 CC_FLAGS = $(INC_PATH) $(DEBUG) $(OPT) $(ERR) -fPIC
 LD_FLAGS = $(LIB_PATH) $(LIBS) -shared
 

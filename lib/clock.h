@@ -21,7 +21,8 @@ void writeClock(const char* clockfile, double new_jdate);
 // Write new_jdate to clock file.
 
 void resetClock(const char* clockfile);
-// Reset clock to some arbitrary date. Currently 2451725.03494
+// Reset clock to some arbitrary date. Currently 2451723.28495, corresponding
+// to the current test initial TLE file.
 
 void tickClock(const char* clockfile, double dt);
 // Increment current time by dt.

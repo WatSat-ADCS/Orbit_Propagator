@@ -25,7 +25,7 @@ void resetRV(const char* rvfile, const char* init_tlefile);
 // Resets the Time, Position, Velocity in rvfile with data
 // corresponding to the TLE data in init_tlefile.
 
-void currentOrbitState(const char* rvfile, const char* clockfile, double* rvtime, double posn[3], double vel[3]);
+void currentOrbitState(const char* rvfile, const char* init_tlefile, const char* clockfile, double* rvtime, double posn[3], double vel[3]);
 // Propagates and updates the state estimate from rvfile to the current time
 // and places the new time, position, velocity in the corresponding variables.
 

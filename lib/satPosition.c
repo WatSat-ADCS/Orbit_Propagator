@@ -106,7 +106,7 @@ void resetRV(const char* rvfile, const char* init_tlefile) {
 
 // Propagates and updates the state estimate from tlefile to the current time
 // and places the new position and velocity in the corresponding variables.
-void currentOrbitState(const char* rvfile, const char* clockfile, double* rvtime, double posn[3], double vel[3]) {
+void currentOrbitState(const char* rvfile, const char* init_tlefile, const char* clockfile, double* rvtime, double posn[3], double vel[3]) {
 
   const gravconsttype GRAV_CONSTS = wgs72;
   // Check whether these are the right ones to hard-code.
@@ -114,15 +114,35 @@ void currentOrbitState(const char* rvfile, const char* clockfile, double* rvtime
   elsetrec satrecord;
   // This is an object which contains the satellite info.
 
-  // Initial state retrieved from rvfile
-  double init_time, init_posn[3], init_vel[3];
-  readRV(rvfile, &init_time, init_posn, init_vel);
-  sgp4(GRAV_CONSTS, satrecord, 1440.0*init_time, init_posn, init_vel);
 
-  // New state
+  // Initialise satrecord directly from TLE file...
+  // ... trust me, it's cleaner than using sgp4init()
+  FILE *tle_fptr;
+  tle_fptr = fopen( init_tlefile, "r" );
+  if (tle_fptr == NULL) {
+    printf("Error opening file: %s\n", init_tlefile);
+    return;
+  }
+
+  char tle_line1[130], tle_line2[130];
+  fgets(tle_line1, 130, tle_fptr);
+  fgets(tle_line2, 130, tle_fptr);
+
+  fclose(tle_fptr);
+
+  double startmfe, stopmfe, deltamin;
+
+  // The twoline2rv() function initialises the satrecord object
+
+  twoline2rv(tle_line1, tle_line2, 'v', 'm', 'i', GRAV_CONSTS, startmfe, stopmfe, deltamin, satrecord);
+  // Again, check whether these are the inputs we want.
+
+
+  // Propagate to new state
   *rvtime = readClock(clockfile);
-  sgp4(GRAV_CONSTS, satrecord, 1440.0*(*rvtime - init_time), init_posn, init_vel); // Is this the correct time format????
+  sgp4(GRAV_CONSTS, satrecord, 1440.0*(*rvtime - satrecord.jdsatepoch), posn, vel);
 
+  // rvtime, posn, vel will be stored in the pointers as outputs, but we'll write to file as well.
   writeRV(rvfile, *rvtime, posn, vel);
 
 }

@@ -79,7 +79,7 @@ START_TEST (test_currentOrbitState) {
   double rvtime, posn[3], vel[3];
 
 
-  currentOrbitState( estRV_filename, clock_filename, &rvtime, posn, vel );
+  currentOrbitState( estRV_filename, initTLE_filename, clock_filename, &rvtime, posn, vel );
 
 
   char str_rvtime[100], str_posn[3][100], str_vel[3][100];

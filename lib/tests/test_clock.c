@@ -44,7 +44,7 @@ START_TEST (test_writeClock) {
 
 START_TEST (test_resetClock) {
 
-  double DEFAULT_TIME = 2451725.03494;
+  double DEFAULT_TIME = 2451723.28495;
   resetClock(clock_filename);
   ck_assert( readClock(clock_filename) == DEFAULT_TIME );
 
