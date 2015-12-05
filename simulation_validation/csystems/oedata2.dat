@@ -1,0 +1,30 @@
+****************************
+* orbital elements data file
+****************************
+
+semimajor axis (kilometers)
+(semimajor axis > 0)
+8000.20276333651       
+
+orbital eccentricity (non-dimensional)
+(0 <= eccentricity < 1)
+0.0155496677583327
+
+orbital inclination (degrees)
+(0 <= inclination <= 180)
+28.5004510719667
+
+argument of perigee (degrees)
+(0 <= argument of perigee <= 360)
+271.668882952857
+
+right ascension of the ascending node (degrees)
+(0 <= RAAN <= 360)
+99.9719760004735
+
+true anomaly (degrees)
+(0 <= true anomaly <= 360)
+43.3469650161354
+
+
+

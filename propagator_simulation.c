@@ -46,7 +46,7 @@ int main() {
   // Simulation
 
   double init_time = readClock(clock_filename);
-  double total_time = 0/1440.0;
+  double total_time = 60/1440.0;
 //  double total_time = 1*(365); // One year in jdate
   double incr_time = 1/1440.0; // One minute in jdate
 

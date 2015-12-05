@@ -17,8 +17,13 @@
 clear all
 close all
 
-addpath ./ECI2ECEF % Include the ECI2ECEF function
-addpath ./csvwrite_with_headers % Include the csvwrite_with_headers function
+addpath ./csystems % Include the eci2ecf and gast4 functions
+
+% csystems programs needs these
+global dtr rtd mu inutate omega;
+om_constants;
+readleap;
+inutate = 1;
 
 % I/O Data files
 sim_datfile = 'simulation_data.csv';
@@ -36,6 +41,7 @@ HOUR = csv_data(:,4);
 MINUTE = csv_data(:,5);
 SECOND = csv_data(:,6);
 
+
 JDATE = csv_data(:,7);
 
 POSN_X = csv_data(:,8);
@@ -49,11 +55,23 @@ VEL_Z = csv_data(:,13);
 
 posn_eci = [ POSN_X'; POSN_Y'; POSN_Z' ];
 vel_eci = [ VEL_X'; VEL_Y'; VEL_Z' ];
-accel_eci = zeros(size(posn_eci));
+%accel_eci = zeros(size(posn_eci));
 
 
 % Convert ECI to ECEF
-[ posn_ecef, vel_ecef, accel_ecef ] = ECItoECEF( JDATE, posn_eci, vel_eci, accel_eci );
+%[ posn_ecef, vel_ecef, accel_ecef ] = ECItoECEF( JDATE, posn_eci, vel_eci, accel_eci ); %% OLD: using ECI2ECEF function
+
+posn_ecef = zeros(size(posn_eci));
+vel_ecef = zeros(size(vel_eci));
+
+for ix = 1:size(posn_ecef,2)
+
+  gast = gast4( fix(JDATE(ix)), JDATE(ix) - fix(JDATE(ix)), 1 );
+  [ temp_posn, temp_vel ] = eci2ecf(gast, posn_eci(:,ix)', vel_eci(:,ix)');
+  posn_ecef(:,ix) = temp_posn';
+  vel_ecef(:,ix) = temp_vel';
+
+end
 
 
 % Convert ECEF to LLA
@@ -64,7 +82,8 @@ LON = zeros([num_rows,1]);
 ALT = zeros([num_rows,1]);
 
 for ix = 1:num_rows
-  [LAT(ix),LON(ix),ALT(ix)] = ecef2lla( posn_ecef(1,ix), posn_ecef(2,ix), posn_ecef(3,ix) );
+  % Input in metres
+  [LAT(ix),LON(ix),ALT(ix)] = ecef2lla( 1000*posn_ecef(1,ix), 1000*posn_ecef(2,ix), 1000*posn_ecef(3,ix) );
 end
 
 % Convert units to radians and kilometres
@@ -73,9 +92,13 @@ LON = LON*180/pi;
 ALT = ALT/1000;
 
 
+% Write headers to output
+HEADER_STRING = ['YEAR,', 'MONTH,', 'DAY,', 'HOUR,', 'MINUTE,', 'SECOND,', 'JULIAN_DATE,', 'LAT (deg),', 'LON (deg),', 'ALT (km)'];
+fileID = fopen(converted_sim_datfile,'w');
+fprintf(fileID, '%s\n', HEADER_STRING);
+fclose(fileID);
+
 % Write output
+dlmwrite(converted_sim_datfile, [YEAR,MONTH,DAY,HOUR,MINUTE,SECOND,JDATE, LAT, LON, ALT], '-append', 'delimiter',',', 'precision',15)
 
-csvwrite_with_headers(converted_sim_datfile, [YEAR,MONTH,DAY,HOUR,MINUTE,SECOND, LAT, LON, ALT], {'YEAR', 'MONTH', 'DAY', 'HOUR', 'MINUTE', 'SECOND', 'LAT (deg)', 'LON (deg)', 'ALT (km)'});
-
-rmpath ./ECI2ECEF
-rmpath ./csvwrite_with_headers
+rmpath ./csystems

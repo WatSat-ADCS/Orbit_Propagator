@@ -1,0 +1,26 @@
+*************************************************
+* modified equinoctial orbital elements data file
+*************************************************
+
+semiparameter (kilometers)
+(|semiparameter| > 0)
+7998.2
+
+f equinoctial element (non-dimensional)
+0.01477212
+
+g equinoctial element (non-dimensional)
+0.00260472
+
+h equinoctial element (non-dimensional)
+-0.04410102
+
+k equinoctial element (non-dimensional)
+0.25010931 
+
+true longitude (degrees)
+(0 <= true longitude <= 360)
+55.0
+
+
+

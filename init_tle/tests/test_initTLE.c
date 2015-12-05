@@ -50,15 +50,21 @@ START_TEST (test_initTLE) {
   sgp4( GRAV_CONSTS, satrecord, 0.0, posn, vel);
   rvtime = satrecord.jdsatepoch;
 
-  //printf("\n\n%f\n\n", rvtime);
+  printf("\n\nTime (JD): %lf\n\n", rvtime);
   ck_assert( rvtime != NAN );
+
   int i;
   for (i = 0; i < 3; i++) {
-    //printf("\n\n%f\n\n", posn[i]);
+    printf("Position[%d]: %lf\n", i, posn[i]);
     ck_assert( posn[i] != NAN );
-    //printf("\n\n%f\n\n", vel[i]);
+  }
+  printf("\n");
+
+  for (i = 0; i < 3; i++) {
+    printf("Velocity[%d]: %lf\n", i, vel[i]);
     ck_assert( vel[i] != NAN );
   }
+  printf("\n");
 
 } END_TEST
 

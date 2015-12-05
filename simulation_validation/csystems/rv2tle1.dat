@@ -1,0 +1,22 @@
+******************
+* rv2tle data file
+******************
+
+UTC calendar date (month, day, year)
+6, 2, 2006
+
+UTC time (hours, minutes, seconds)
+21, 11, 30
+
+eci position vector (kilometers)
+
+-5339.76186573000  
++5721.43584226500  
++921.276953805000
+
+eci velocity vector (kilometers/second)
+
+-4.88969089550000
+-3.83304653050000
++3.18013811100000 
+
