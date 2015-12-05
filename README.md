@@ -1,6 +1,14 @@
 # Orbit_Propagator
 Candidate on-board orbit propagator and simulation thereof.
 
+To run the simulation, put the initial tle file in dat/ and name it tle_init.txt.
+Then, from the Orbit\ Propagator/ directory, type
+	make
+	make run
+The output of the simulation will be stored in simulation_validation/simulation_data.csv
+The simulation_validation folder contains the script convert_simulation_data.m which will convert the data in simulation_data.csv from ECI (TEME) coordinates to LLA (Lat/Lon/Alt). (Note: this transformation first converts the ECI to ECEF and then from ECEF to LLA.)
+
+
 
 
 OUTLINE

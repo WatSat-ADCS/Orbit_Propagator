@@ -1,0 +1,32 @@
+***********************************
+* flight path coordinates data file
+***********************************
+
+UTC calendar date (month, day, year)
+4, 25, 2013
+
+UTC time (hours, minutes, seconds)
+10, 20, 30
+
+east longitude (degrees)
+(0 <= east longitude <= 360)
+188.17547382
+
+geocentric declination (degrees)
+(-90 <= declination <= +90)         
+-19.38148629
+
+flight path angle (degrees)
+(-90 <= flight path angle <= +90)
+-6.2
+
+relative azimuth (degrees)
+(0 <= azimuth <= 360)      
+38.98298719
+
+position magnitude (kilometers)   
+6497.6909512
+
+velocity magnitude (kilometers/second)    
+10.71074956 
+

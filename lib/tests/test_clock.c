@@ -16,6 +16,7 @@
 #include "clock.h"
 
 const char clock_filename[] = "../../dat/jdate.txt";
+const char inittime_filename[] = "../../dat/init_time.txt";
 
 /*===== TESTS =====*/
 
@@ -44,8 +45,8 @@ START_TEST (test_writeClock) {
 
 START_TEST (test_resetClock) {
 
-  double DEFAULT_TIME = 2451723.28495;
-  resetClock(clock_filename);
+  double DEFAULT_TIME = readClock(inittime_filename);
+  resetClock(clock_filename, inittime_filename);
   ck_assert( readClock(clock_filename) == DEFAULT_TIME );
 
 } END_TEST

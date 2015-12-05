@@ -1,0 +1,24 @@
+********************************
+* geodetic coordinates data file
+********************************
+
+UTC calendar date (month, day, year)
+5, 1, 2013
+
+UTC time (hours, minutes, seconds)
+10, 25, 45
+
+geodetic latitude (degrees)
+(-90 <= latitude <= +90)
+30.0
+
+east longitude (degrees)
+(0 <= longitude <= 360
+120.0
+
+geodetic altitude (kilometers)
+(altitude > 0)
+300.0
+
+
+

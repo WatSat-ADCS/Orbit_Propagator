@@ -19,16 +19,17 @@
 
 
 const char clock_filename[] = "dat/jdate.txt";
+const char inittime_filename[] = "dat/init_time.txt";
 const char rv_filename[] = "dat/rv_est.txt";
 const char initTLE_filename[] = "dat/tle_init.txt";
 
-const char csvout_filename[] = "simulation_data.csv";
+const char csvout_filename[] = "simulation_validation/simulation_data.csv";
 
 
 int main() {
 
   // Initialise
-  resetClock(clock_filename);
+  resetClock(clock_filename, inittime_filename);
   resetRV(rv_filename, initTLE_filename);
 
   // Prepare output file
@@ -45,7 +46,7 @@ int main() {
   // Simulation
 
   double init_time = readClock(clock_filename);
-  double total_time = 5/1440.0;
+  double total_time = 0/1440.0;
 //  double total_time = 1*(365); // One year in jdate
   double incr_time = 1/1440.0; // One minute in jdate
 

@@ -1,0 +1,6 @@
+Just run convert_simulation_data.m in MATLAB or OCTAVE and it will take the data from simulation_data.csv and output converted_simulation_data.csv.
+
+Can also just run from terminal by:
+	matlab -nodesktop -nosplash -nojvm -r convert_simulation_data
+OR
+	octave convert_simulation_data.m

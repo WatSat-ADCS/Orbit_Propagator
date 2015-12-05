@@ -63,9 +63,9 @@ void writeClock(const char* clockfile, double new_jdate) {
 
 // Reset clock to some arbitrary date. Currently 2451723.28495, corresponding
 // to the current test initial TLE file.
-void resetClock(const char* clockfile) {
+void resetClock(const char* clockfile, const char* init_timefile) {
 
-  double DEFAULT_TIME = 2451723.28495;
+  double DEFAULT_TIME = readClock(init_timefile);
   writeClock(clockfile, DEFAULT_TIME);
   return;
 

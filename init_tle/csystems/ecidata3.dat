@@ -1,0 +1,28 @@
+*******************************************************************
+* state vector (position and velocity) data file - hyperbolic orbit
+*******************************************************************
+
+UTC calendar date (month, day, year)
+5, 1, 2013
+
+UTC time (hours, minutes, seconds)
+10, 25, 45
+
+eci position vector (kilometers)
+
+-4786.49275664045
+-3852.86985447614 
+-2307.35522767897 
+
+eci velocity vector (kilometers/second)
+
++2.99280761783281  
+-9.54679394718429  
++5.53554782769536
+
+
+
+
+
+
+

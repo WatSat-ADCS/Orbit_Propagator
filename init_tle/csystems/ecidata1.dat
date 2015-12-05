@@ -1,0 +1,27 @@
+************************************************
+* state vector (position and velocity) data file
+************************************************
+
+UTC calendar date (month, day, year)
+4, 25, 2013
+
+UTC time (hours, minutes, seconds)
+10, 20, 30
+
+eci position vector (kilometers)
+
++3871.56734351188
++6365.21709672617
+-2670.28756008413
+
+eci velocity vector (kilometers/second)
+
+-5.20544460471574
++4.25847877360187
++2.38188428278297
+
+
+
+
+
+
