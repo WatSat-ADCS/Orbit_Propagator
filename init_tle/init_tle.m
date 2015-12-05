@@ -96,15 +96,19 @@ coev = eci2orb2( mu, gast, omega, 0.0, posn_eci, vel_eci );
 
 
 
-
 %%%%% Write TLE file
+
+% Dummy TLE data
+satnum = '00001';
+
+
 if (iytle < 2000)
-  tle_line1 = sprintf( '1 XXXXXU XXXXXX   %2.2i%3.3i.%s -.00000000  00000-0 -00000-0 0  XXX', iytle-1900, fix(tledoy), tledoy_string(ci + 1:ci + 8) );
+  tle_line1 = sprintf( '1 %sU XXXXXX   %2.2i%3.3i.%s -.00000000  00000-0 -00000-0 0  XXX', satnum, iytle-1900, fix(tledoy), tledoy_string(ci + 1:ci + 8) );
 else
-  tle_line1 = sprintf( '1 XXXXXU XXXXXX   %2.2i%3.3i.%s -.00000000  00000-0 -00000-0 0  XXX', iytle-2000, fix(tledoy), tledoy_string(ci + 1:ci + 8) );
+  tle_line1 = sprintf( '1 %sU XXXXXX   %2.2i%3.3i.%s -.00000000  00000-0 -00000-0 0  XXX', satnum, iytle-2000, fix(tledoy), tledoy_string(ci + 1:ci + 8) );
 end
 
-tle_line2 = sprintf( '2 XXXXX %8.4f %8.4f %7.7i %8.4f %8.4f %11.13f', rtd * xincl, rtd * xnodeo, fix(eo * 1.0d7), rtd * omegao, rtd * xmo, xno );
+tle_line2 = sprintf( '2 %s %8.4f %08.4f %7.7i %08.4f %8.4f %11.8f00001', satnum, rtd * xincl, rtd * xnodeo, fix(eo * 1.0d7), rtd * omegao, rtd * xmo, xno );
 
 
 % Checksums

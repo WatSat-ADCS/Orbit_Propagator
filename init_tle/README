@@ -1,1 +1,9 @@
-This folder contains a matlab script to generate data for a TLE file from LLA coords.
+This folder contains a MATLAB script to generate data for a TLE file from LLA coords.
+
+Open up the MATLAB script and enter the appropriate LLA, etc. data to be converted to a TLE file.
+Then run the script, either from MATLAB or through the terminal by:
+	matlab -nodesktop -nosplash -nojvm -r 'init_tle; exit'
+
+This will create a tle_init.txt file containing the TLE data in this folder. Run "make" from the terminal which will run a unit test to ensure the file will work in the simulation.
+
+Copy the tle_init.txt file to the ../dat/ folder to use in the Orbit Propagator simulation.
