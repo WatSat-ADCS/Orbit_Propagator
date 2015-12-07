@@ -10,6 +10,7 @@
 %
 % Change log:
 % 2015-12-04 (JP) - Initial release
+% 2015-12-07 (JP) - Updated initial conditions
 %
 %===================================================================================================================
 
@@ -36,12 +37,12 @@ utc_year = 2015;
 utc_month = 09;
 utc_day = 01;
 utc_hour = 16;
-utc_minute = 00;
+utc_minute = 01;
 utc_sec = 00;
 
-lat = 0 * (pi/180); % radians
-lon = 139.501 * (pi/180); % radians
-alt = 600.003; % km
+lat = 3.705 * (pi/180); % radians
+lon = 138.732 * (pi/180); % radians
+alt = 600.091606; % km
 
 % Second set to calculate velocity
 utc_year2 = 2015;
@@ -49,11 +50,11 @@ utc_month2 = 09;
 utc_day2 = 01;
 utc_hour2 = 16;
 utc_minute2 = 01;
-utc_sec2 = 00;
+utc_sec2 = 01;
 
-lat2 = 3.705 * (pi/180); % radians
-lon2 = 138.732 * (pi/180); % radians
-alt2 = 600.091606;
+lat2 = 3.766824 * (pi/180); % radians
+lon2 = 138.71915 * (pi/180); % radians
+alt2 = 600.094559;
 
 
 

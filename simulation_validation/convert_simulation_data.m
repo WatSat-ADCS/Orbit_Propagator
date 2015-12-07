@@ -14,9 +14,6 @@
 %
 %===================================================================================================================
 
-clear all
-close all
-
 addpath ./csystems % Include the eci2ecf and gast4 functions
 
 % csystems programs needs these

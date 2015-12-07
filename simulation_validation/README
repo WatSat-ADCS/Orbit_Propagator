@@ -1,6 +1,14 @@
-Just run convert_simulation_data.m in MATLAB or OCTAVE and it will take the data from simulation_data.csv and output converted_simulation_data.csv.
+Just run orbit_comparison.m in MATLAB to compare the simulation results to the verification data. Alternatively, run from command line with:
+	matlab -nodesktop -nosplash -r 'orbit_comparison'
 
-Can also just run from terminal by:
-	matlab -nodesktop -nosplash -nojvm -r convert_simulation_data
-OR
-	octave convert_simulation_data.m
+Note that this cript also runs the convert_simulation_data.m script. The inputs to the orbit_comparison.m script are the simulation and verification data file names (written directly in the script) and whatever input filenames written directly in the convert_simulation_data.m script.
+
+Note that MATLAB typically has a difficult time reading in data from an .xlsx file, so it is preferable to take verification data from a .mat file.
+
+Also, the orbit_comparison.m script apparently doesn't like it when you turn off java, so don't include the "-nojvm" flag when running it.
+
+
+If you just want to convert the simulation data then just run the convert_simulation_data.m script in MATLAB, or from the terminal using:
+	matlab -nodesktop -nosplash -r 'convert_simulation_data; exit'
+
+The input file names are just written directly in the script.

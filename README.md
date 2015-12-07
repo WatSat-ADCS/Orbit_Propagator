@@ -10,9 +10,8 @@ Then, from the Orbit\ Propagator/ directory, type
 	make
 	make run
 The output of the simulation will be stored in simulation_validation/simulation_data.csv
-The simulation_validation folder contains the script convert_simulation_data.m which will convert the data in simulation_data.csv from ECI (TEME) coordinates to LLA (Lat/Lon/Alt). (Note: this transformation first converts the ECI to ECEF and then from ECEF to LLA.)
-The simulation data can then be validated against the information contained in:
-	simulation_validation/WatSat1\ LLA\ Position\ -\ Sept2015-Aug2016_600km.xlsx
+
+The simulation_validation folder contains a MATLAB script orbit_comparison.m to validate the output of the simulation against the data stored in WatSat_LLA_Position_600km.mat (this file can be changed: see README in simulation_validation folder).
 
 
-This repo contains many programs not required on board the satellite for the ADCS software nor required for the Control Simulation. All that is required for these are the files in dat/ as well as the libraries in lib/ (though they will have to be altered for different clock implementations).
+NOTE: This repo contains many programs not required on-board the satellite for the ADCS software nor required for the Control Simulation. All that is required for these are the files in dat/ as well as the libraries in lib/ (though they will have to be altered for different clock implementations).
