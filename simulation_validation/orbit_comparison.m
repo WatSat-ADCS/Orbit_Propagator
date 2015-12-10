@@ -41,6 +41,11 @@ ver_lat = ver_data.data(1:num_simdat,2);
 ver_lon = ver_data.data(1:num_simdat,3);
 ver_alt = ver_data.data(1:num_simdat,4);
 
+ver_latrate = ver_data.data(1:num_simdat,5);
+ver_lonrate = ver_data.data(1:num_simdat,6);
+ver_altrate = ver_data.data(1:num_simdat,7);
+
+
 % Plot data
 figure(1)
 
